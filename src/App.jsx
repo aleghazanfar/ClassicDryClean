@@ -1,20 +1,21 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import AppLayout from "./layouts/AppLayout";
 
 import Dashboard from "./pages/Dashboard";
+import LandingPage from "./pages/LandingPage";
 import CreateOrder from "./pages/Orders/CreateOrder";
 
 function App() {
   return (
     <BrowserRouter>
-      <AppLayout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route element={<AppLayout><Outlet /></AppLayout>}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/createOrder" element={<CreateOrder />} />
-        </Routes>
-      </AppLayout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
