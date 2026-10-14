@@ -54,7 +54,13 @@ const CreateOrder = () => {
           </Text>
         </div>
         <Form form={form} layout="vertical" onFinish={handleSaveOrder}>
-          <Card title="Customer Information" bordered>
+          <Card
+            title="Customer Information"
+            style={{
+              border: "1px solid #D4AF37 ",
+              borderRadius: 8,
+            }}
+          >
             {" "}
             <Row gutter={16}>
               {" "}
@@ -89,7 +95,14 @@ const CreateOrder = () => {
               </Col>
             </Row>
           </Card>
-          <Card title="Order Information" bordered style={{ marginTop: 16 }}>
+          <Card
+            title="Order Information"
+            style={{
+              border: "1px solid #D4AF37 ",
+              borderRadius: "8px",
+              marginTop: "16px",
+            }}
+          >
             <Row gutter={16}>
               <Col xs={24} md={12}>
                 <Form.Item
@@ -151,7 +164,14 @@ const CreateOrder = () => {
               </Col>
             </Row>
           </Card>
-          <Card title="Garment Details" bordered style={{ marginTop: 16 }}>
+          <Card
+            title="Garment Details"
+            style={{
+              border: "1px solid #D4AF37 ",
+              borderRadius: "8px",
+              marginTop: "16px",
+            }}
+          >
             <Row gutter={16}>
               <Col xs={24} md={12}>
                 <Form.Item
@@ -267,7 +287,14 @@ const CreateOrder = () => {
               </Col>
             </Row>
           </Card>
-          <Card title="Order Summary" bordered style={{ marginTop: 16 }}>
+          <Card
+            title="Order Summary"
+            style={{
+              border: "1px solid #D4AF37 ",
+              borderRadius: "8px",
+              marginTop: "16px",
+            }}
+          >
             <Row gutter={16}>
               <Col xs={24} md={8}>
                 <Form.Item label="Subtotal (Rs.)">
@@ -314,7 +341,14 @@ const CreateOrder = () => {
               </Title>
             </div>
           </Card>
-          <Card title="Payment Information" bordered style={{ marginTop: 16 }}>
+          <Card
+            title="Payment Information"
+            style={{
+              border: "1px solid #D4AF37 ",
+              borderRadius: "8px",
+              marginTop: "16px",
+            }}
+          >
             <Row gutter={16}>
               <Col xs={24} md={8}>
                 <Form.Item
@@ -352,7 +386,7 @@ const CreateOrder = () => {
                     {
                       type: "number",
                       min: 0,
-                      message: "Payment cannot be negative.",
+                      message: "Advance payment cannot be negative.",
                     },
                     {
                       validator: (_, value) => {
@@ -407,7 +441,14 @@ const CreateOrder = () => {
               </Title>
             </div>
           </Card>
-          <Card title="Order Notes" bordered style={{ marginTop: 16 }}>
+          <Card
+            title="Order Notes"
+            style={{
+              border: "1px solid #D4AF37 ",
+              borderRadius: "8px",
+              marginTop: "16px",
+            }}
+          >
             <Form.Item label="Special Instructions" name="notes">
               <Input.TextArea
                 rows={4}

@@ -1,10 +1,11 @@
 import { Card, Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
+import "../style/style.css";
 
 function Dashboard() {
   return (
-    <Card>
+    <Card className="cardBorder">
       <Title level={3}>Dashboard</Title>
 
       <Paragraph>
