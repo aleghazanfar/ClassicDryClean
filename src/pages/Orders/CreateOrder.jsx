@@ -7,6 +7,7 @@ import {
   Input,
   InputNumber,
   message,
+  Popconfirm,
   Row,
   Select,
   Space,
@@ -14,13 +15,38 @@ import {
 } from "antd";
 
 const { Title, Text } = Typography;
-
+import dayjs from "dayjs";
 const CreateOrder = () => {
   const [form] = Form.useForm();
   const handleSaveOrder = (values) => {
-    console.log("Order Data:", values);
+    const orderData = {
+      customerName: values.customerName.trim(),
+      phoneNumber: values.phoneNumber.trim(),
 
-    message.success("Order validated successfully!");
+      orderDate: values.orderDate.format("YYYY-MM-DD"),
+      deliveryDate: values.deliveryDate.format("YYYY-MM-DD"),
+
+      garmentType: values.garmentType,
+      cleaningService: values.cleaningService,
+
+      quantity: Number(values.quantity),
+      unitPrice: Number(values.unitPrice),
+
+      subtotal: amount,
+      discount: Number(values.discount) || 0,
+      grandTotal,
+
+      paymentMethod: values.paymentMethod,
+      advancePayment: Number(values.advancePayment) || 0,
+      balanceDue,
+      paymentStatus,
+
+      notes: values.notes?.trim() || "",
+    };
+
+    console.log("Prepared Order Data:", orderData);
+
+    message.success("Order data prepared successfully!");
   };
 
   const quantity = Form.useWatch("quantity", form);
@@ -53,7 +79,17 @@ const CreateOrder = () => {
             Create a new dry cleaning order for your customer.
           </Text>
         </div>
-        <Form form={form} layout="vertical" onFinish={handleSaveOrder}>
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={{
+            orderDate: dayjs(),
+            quantity: 1,
+            discount: 0,
+            advancePayment: 0,
+          }}
+          onFinish={handleSaveOrder}
+        >
           <Card
             title="Customer Information"
             style={{
@@ -87,6 +123,11 @@ const CreateOrder = () => {
                     {
                       required: true,
                       message: "Please enter the phone number.",
+                    },
+                    {
+                      pattern: /^\+?[0-9\s-]{10,15}$/,
+                      message:
+                        "Enter a valid phone number with 10–15 characters.",
                     },
                   ]}
                 >
@@ -127,6 +168,7 @@ const CreateOrder = () => {
               <Col xs={24} md={12}>
                 <Form.Item
                   label="Expected Delivery Date"
+                  dependencies={["orderDate"]}
                   name="deliveryDate"
                   rules={[
                     {
@@ -310,11 +352,40 @@ const CreateOrder = () => {
               </Col>
 
               <Col xs={24} md={8}>
-                <Form.Item label="Discount (Rs.)" name="discount">
+                <Form.Item
+                  label="Discount (Rs.)"
+                  name="discount"
+                  dependencies={["quantity", "unitPrice"]}
+                  rules={[
+                    {
+                      type: "number",
+                      min: 0,
+                      message: "Discount cannot be negative.",
+                    },
+                    {
+                      validator: (_, value) => {
+                        const quantity =
+                          Number(form.getFieldValue("quantity")) || 0;
+
+                        const unitPrice =
+                          Number(form.getFieldValue("unitPrice")) || 0;
+
+                        const subtotal = quantity * unitPrice;
+
+                        if (value == null || value <= subtotal) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(
+                          new Error("Discount cannot exceed the subtotal."),
+                        );
+                      },
+                    },
+                  ]}
+                >
                   <InputNumber
                     size="large"
                     min={0}
-                    max={amount}
                     precision={2}
                     style={{ width: "100%" }}
                     placeholder="Enter discount"
@@ -322,17 +393,10 @@ const CreateOrder = () => {
                 </Form.Item>
               </Col>
             </Row>
-            <div
-              style={{
-                marginTop: 16,
-                padding: 16,
-                background: "#f0f5ff",
-                borderRadius: 8,
-              }}
-            >
-              <Typography.Text type="secondary">Grand Total</Typography.Text>
+            <div className="order-summary-total">
+              <Text strong>Grand Total</Text>
 
-              <Title level={2} style={{ margin: "8px 0 0" }}>
+              <Title level={2} style={{ marginTop: 8, marginBottom: 0 }}>
                 Rs.{" "}
                 {grandTotal.toLocaleString("en-PK", {
                   minimumFractionDigits: 2,
@@ -390,7 +454,23 @@ const CreateOrder = () => {
                     },
                     {
                       validator: (_, value) => {
-                        if (value == null || value <= grandTotal) {
+                        const quantity =
+                          Number(form.getFieldValue("quantity")) || 0;
+                        const unitPrice =
+                          Number(form.getFieldValue("unitPrice")) || 0;
+                        const discount =
+                          Number(form.getFieldValue("discount")) || 0;
+
+                        const subtotal = quantity * unitPrice;
+                        const currentGrandTotal = Math.max(
+                          0,
+                          subtotal - discount,
+                        );
+
+                        if (
+                          value == null ||
+                          Number(value) <= currentGrandTotal
+                        ) {
                           return Promise.resolve();
                         }
 
@@ -466,9 +546,18 @@ const CreateOrder = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button size="large" onClick={() => form.resetFields()}>
-              Reset Form
-            </Button>
+            <Popconfirm
+              title="Reset this order form?"
+              description="All entered information will be cleared."
+              okText="Yes, Reset"
+              cancelText="Cancel"
+              onConfirm={() => {
+                form.resetFields();
+                message.success("Form has been reset.");
+              }}
+            >
+              <Button size="large">Reset Form</Button>
+            </Popconfirm>
 
             <Button type="primary" htmlType="submit" size="large">
               Save Order
