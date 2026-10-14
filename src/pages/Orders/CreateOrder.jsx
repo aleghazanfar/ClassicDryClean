@@ -47,7 +47,9 @@ const CreateOrder = () => {
     <>
       <div className="create-order-page">
         <div className="page-heading">
-          <Title level={3}>Create New Order</Title>
+          <Title level={3} style={{ background: "red", color: "white" }}>
+            Create New Order
+          </Title>
 
           <Text type="secondary">
             Create a new dry cleaning order for your customer.
