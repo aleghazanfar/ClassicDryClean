@@ -111,6 +111,7 @@ const CreateOrder = () => {
                       message: "Please enter the customer name.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <Input placeholder="Enter customer name" size="large" />
                 </Form.Item>
@@ -130,6 +131,7 @@ const CreateOrder = () => {
                         "Enter a valid phone number with 10–15 characters.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <Input placeholder="e.g. 03001234567" size="large" />
                 </Form.Item>
@@ -155,6 +157,7 @@ const CreateOrder = () => {
                       message: "Please select the order date.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <DatePicker
                     size="large"
@@ -195,6 +198,7 @@ const CreateOrder = () => {
                       },
                     },
                   ]}
+                  hasFeedback
                 >
                   <DatePicker
                     size="large"
@@ -225,6 +229,7 @@ const CreateOrder = () => {
                       message: "Please select a garment type.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <Select
                     size="large"
@@ -253,6 +258,7 @@ const CreateOrder = () => {
                       message: "Please select a cleaning service.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <Select
                     size="large"
@@ -278,6 +284,7 @@ const CreateOrder = () => {
                       message: "Please enter the quantity.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <InputNumber
                     size="large"
@@ -304,6 +311,7 @@ const CreateOrder = () => {
                       message: "Unit price cannot be negative.",
                     },
                   ]}
+                  hasFeedback
                 >
                   <InputNumber
                     size="large"
@@ -382,6 +390,7 @@ const CreateOrder = () => {
                       },
                     },
                   ]}
+                  hasFeedback
                 >
                   <InputNumber
                     size="large"
@@ -480,6 +489,7 @@ const CreateOrder = () => {
                       },
                     },
                   ]}
+                  hasFeedback
                 >
                   <InputNumber
                     size="large"
