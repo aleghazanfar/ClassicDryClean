@@ -251,3 +251,13 @@ body {
     padding: 12px;
   }
 }
+
+.flexDash {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 20px 30px;
+  background: #bcc0c7;
+  border: 1px solid #e4b342;
+}
